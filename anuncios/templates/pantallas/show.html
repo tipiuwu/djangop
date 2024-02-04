@@ -1,0 +1,17 @@
+<!-- asociar_anuncio.html -->
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Asociar Anuncio a Pantalla</title>
+</head>
+<body>
+    <h1>Asociar Anuncio a Pantalla</h1>
+    <p>Pantalla: {{ pantalla.nombre }}</p>
+
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Asociar Anuncio</button>
+    </form>
+</body>
+</html>

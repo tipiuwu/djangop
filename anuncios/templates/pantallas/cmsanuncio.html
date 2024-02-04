@@ -1,0 +1,9 @@
+{% extends 'layouts/base.html' %}
+{% block content %}
+
+<form method="POST" enctype="multipart/form-data">
+    {% csrf_token %}
+    {{ cms_event_form.as_p }}
+    <button type="submit">Guardar</button>
+</form>
+{% endblock %}

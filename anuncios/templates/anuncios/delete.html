@@ -1,0 +1,10 @@
+{% extends 'layouts/base.html' %}
+{% block content %}
+<form method="POST">
+	{% csrf_token %}
+	<h3>Desea eiminar el registro </h3>
+	<button class="btn btn-primary btn-xs" type="submit">Si, eliminar</button>
+	<a class="btn btn-danger btn-xs" href="{ % url 'template:anuncios/index' %}">Cancelar</a>
+
+</form>
+{% endblock %}

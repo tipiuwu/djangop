@@ -1,0 +1,43 @@
+/* static/css/style.css */
+
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+}   
+
+.header {
+    background-color: #9EB7E5;
+    color: #fff;
+    padding: 10px;
+    text-align: center;
+}
+
+.header img {
+    width: 50px; /* Ajusta el tamaño de la imagen según tus necesidades */
+    height: 50px;
+}
+
+.options {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    background-color: #ecf0f1;
+    padding: 10px;
+}
+
+.option {
+    text-align: center;
+}
+
+.option img {
+    width: 30px; /* Ajusta el tamaño del ícono según tus necesidades */
+    height: 30px;
+}
+
+.content {
+    padding: 20px;
+}
+
+.full-width-table {
+    width: 100%;
+}

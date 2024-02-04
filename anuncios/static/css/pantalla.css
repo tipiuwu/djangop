@@ -1,0 +1,187 @@
+body {
+    background-color: #f8f4f4;
+    margin: 0;
+}
+
+.circle {
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    background-color: #e0e0e0;
+    position: relative;
+    overflow: hidden;
+    display: inline-block;
+    vertical-align: top;
+}
+
+.more-content {
+    display: none;
+    clear: both;
+    text-align: right;
+}
+
+.fill {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    background-color: #3498db;
+}
+
+.card {
+    margin-top: -10px;
+    width: 1200px;
+    margin-left: 50px;
+}
+
+.table th,
+.table td {
+    text-align: center;
+    border: none; /* Agrega esta línea para quitar el borde de las celdas */
+}
+
+.table tbody tr {
+    border-bottom: none; /* Agrega esta línea para quitar la línea de separación entre las filas */
+}
+
+.status-circle {
+    width: 15px;
+    height: 15px;
+    border-radius: 50%;
+    display: inline-block;
+    margin-right: 5px;
+}
+
+.status-online {
+    background-color: #28a745;
+}
+
+.status-offline {
+    background-color: #dc3545;
+}
+
+.section-heading {
+    margin-bottom: 20px;
+    border-bottom: 2px solid #ddd;
+    padding-bottom: 10px;
+}
+
+.table-section {
+    margin-top: 20px;
+}
+
+.btn-add {
+    position: fixed;
+    bottom: 50px;
+    right: 50px;
+    z-index: 1000;
+    width: 50px;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    overflow: hidden;
+}
+
+.btn-add .icon {
+    font-size: 24px;
+    color: white;
+    text-decoration: none;
+    position: relative;
+    top: -1px;
+    z-index: 1;
+}
+
+.btn-add .background {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    background-color: #B4ADEA;
+    transition: background-color 0.3s ease;
+}
+
+.btn-add:hover .background {
+    background-color: #8568B2;
+}
+
+/* Nueva clase para el botón de "+" */
+.btn-plus {
+    cursor: pointer;
+    background-color: #3498db;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 5px 10px;
+    font-size: 16px;
+}
+
+/* Nueva clase para el área de acciones dentro de la barra desplegable */
+.acciones-container {
+    display: flex;
+    justify-content: space-around;
+}
+
+.acciones-container a {
+    color: white;
+}
+.btn-search {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+}
+
+.btn-search .icon {
+    font-size: 16px;
+    color: #3498db;
+    text-decoration: none;
+    position: relative;
+    top: -1px;
+    z-index: 1;
+}
+
+.btn-search .background {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    background-color: transparent;
+    transition: background-color 0.3s ease;
+}
+
+.btn-search:hover .background {
+    background-color: transparent;
+}
+
+.acciones-container a:hover {
+    text-decoration: none;
+}
+#mas_opciones {
+text-align: center;
+margin-top: 10px;
+}
+
+#mas_opciones button {
+color: #333; /* Color del texto */
+background-color: transparent; /* Fondo transparente */
+border: none; /* Sin borde */
+padding: 0; /* Sin relleno */
+font-size: 14px; /* Tamaño de fuente ajustable */
+}
+
+
+.encendido-todo-dia {
+margin-left: 30px; /* Ajusta el valor según sea necesario para lograr el espaciado deseado */
+}
+
+#opcionesCollapse {
+margin-top: 10px;
+}

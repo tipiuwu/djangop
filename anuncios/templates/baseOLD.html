@@ -1,0 +1,88 @@
+<!-- templates/base.html -->
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Mi Sitio{% endblock %}</title>
+    <link rel="stylesheet" href="{% static 'css/estilos.css' %}">
+    <!-- Agrega el enlace a FontAwesome aquí -->
+    <!-- Ejemplo de cargar Font Awesome desde la CDN oficial -->
+     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+   
+
+    <style>
+        .header {
+            display: flex;
+/*            justify-content: space-between;*/
+            align-items: center;
+        }
+
+        .header img {
+            margin-right: 10px;  /* Ajusta el margen entre la imagen y el texto según tus preferencias */
+        }
+
+        .options {
+            display: flex;
+            /* Cambia 'space-around' a 'flex-start' para alinear a la izquierda */
+            justify-content: flex-start;
+            margin-top: 0px;
+        }
+
+        .option {
+            text-align: center;
+            margin-right: 20px;  /* Ajusta el margen entre las opciones según tus preferencias */
+        }
+
+        .option i {
+            font-size: 24px;  /* Ajusta el tamaño del icono según tus preferencias */
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <img src="{% static 'images/logo.png' %}" alt="Logo">
+        <h1>ANUNCIOS PUBLICITARIOS</h1>
+    </div>
+    <div class="options">
+        <div class="option">
+           <!-- Icono para Resumen -->
+            <p></p>
+        </div>
+        <div class="option">
+            <i class="fa fa-desktop"></i> <!-- Icono para Resumen -->
+            <p>Resumen</p>
+        </div>
+        <div class="option">
+            <a href="{% url 'lista_pantallas' %}">
+                <i class="fas fa-desktop"></i> <!-- Icono para Pantallas -->
+                <p>Pantallas</p>
+            </a>
+        </div>
+        <div class="option">
+            <i class="fa fa-bullhorn"></i> <!-- Icono para Anuncios -->
+            <p>Anuncios</p>
+        </div>
+        <div class="option">
+            <i class="fa fa-desktop"></i> <!-- Icono para Sincro -->
+            <p>Sincro</p>
+        </div>
+        <div class="option">
+            <i class="fa fa-flag"></i> <!-- Icono para Campañas -->
+            <p>Campañas</p>
+        </div>
+        <div class="option">
+            <i class="fa fa-desktop"></i> <!-- Icono para Reportes -->
+            <p>Reportes</p>
+        </div>
+        <div class="option">
+            <i class="fa fa-users"></i> <!-- Icono para Usuarios -->
+            <p>Usuarios</p>
+        </div>
+    </div>
+
+    <!-- Resto del contenido -->
+</body>
+</html>

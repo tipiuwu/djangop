@@ -1,0 +1,406 @@
+<!-- anuncios/resumen.html -->
+{% extends 'layouts/base.html' %}
+{% block content %}
+<!-- Incluye jQuery -->
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+
+<!-- Incluye Bootstrap JS y CSS -->
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+<style>
+  body {
+    background-color: #e1f1fd;
+  }
+  
+  .card-list {
+    width: 100%;
+  }
+  .card-list:before, .card-list:after {
+    content: " ";
+    display: table;
+  }
+  .card-list:after {
+    clear: both;
+  }
+
+  .card {
+    border-radius: 8px;
+    color: white;
+    padding: 10px;
+    position: relative;
+  }
+  .card .zmdi {
+    color: white;
+    font-size: 28px;
+    opacity: 0.3;
+    position: absolute;
+    right: 13px;
+    top: 13px;
+  }
+  .card .stat {
+    border-top: 1px solid rgba(255, 255, 255, 0.3);
+    font-size: 8px;
+    margin-top: 25px;
+    padding: 10px 10px 0;
+    text-transform: uppercase;
+  }
+  .card .title {
+    display: inline-block;
+    font-size: 8px;
+    padding: 10px 10px 0;
+    text-transform: uppercase;
+  }
+  .card .value {
+    font-size: 28px;
+    padding: 0 10px;
+  }
+  .card.blue {
+    background-color: #2298F1;
+  }
+  .card.green {
+    background-color: #66B92E;
+  }
+  .card.orange {
+    background-color: #DA932C;
+  }
+  .card.red {
+    background-color: #D65B4A;
+  }
+
+  .contenedor-cuadrados {
+    display: flex;
+    justify-content: space-around;
+    align-items: flex-start;
+    flex-wrap: wrap;
+    margin: 15px;
+  }
+
+  #myPieChart {
+    width: 400px;
+    height: 200px;
+  }
+
+  .hoja {
+    display: flex;
+    width: 400px;
+    height: 200px;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    margin: 15px;
+    padding: 20px;
+    text-align: center;
+    border-radius: 15px;
+    box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.1);
+  }
+
+  .contenido {
+    flex: 1;
+    text-align: left;
+    margin-right: 20px;
+  }
+
+  .grafico {
+    width: 100px;
+    height: 100px;
+    background-color: #3498db;
+    border-radius: 50%;
+  }
+
+  .icono-mensaje {
+    font-size: 36px;
+    color: #3498db;
+  }
+
+  .buscador {
+    width: 80%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    margin-right: 10px;
+  }
+
+  .nombre {
+    color: #333;
+    margin-bottom: 5px;
+  }
+
+  .hoja:hover {
+    border-bottom: 2px solid #3498db;
+  }
+  .projects-table tr:hover {
+    background-color: #f0f8ff; /* Cambia el color de fondo al pasar el mouse */
+    transition: background-color 0.3s ease; /* Agrega una transición al color de fondo */
+  }
+
+  .projects-table td {
+    padding: 10px; /* Ajusta el espaciado interno de las celdas de la tabla */
+  }
+
+  .boton-buscar {
+    padding: 10px 20px;
+    background-color: #3498db;
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+  }
+
+  .content-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+</style>
+
+<main role="main" class="col-md-9 ml-sm-auto col-lg-10 my-3">
+    <div class="card-list">
+        <div class="row">
+            <div class="col-12 col-md-6 col-lg-4 col-xl-3 mb-4">
+                <div class="card blue">
+                    <div class="title">Pantallas activas</div>
+                    <i class="zmdi zmdi-tv"></i>
+                    <div class="value">{{ pante_true.count }} / {{ pante_all.count }}</div>
+                    <div class="stat"><b>13</b>% 100% activas</div>
+                </div>
+            </div>
+            <div class="col-12 col-md-6 col-lg-4 col-xl-3 mb-4">
+              <div class="card red">
+                  <div class="title">Pantallas activas</div>
+                  <i class="zmdi zmdi-tv"></i>
+                  <div class="value">{{ pante_true.count }} / {{ pante_all.count }}</div>
+                  <div class="stat"><b>13</b>% 100% activas</div>
+              </div>
+          </div>
+          <div class="col-12 col-md-6 col-lg-4 col-xl-3 mb-4">
+            <div class="card green">
+                <div class="title">Pantallas activas</div>
+                <i class="zmdi zmdi-tv"></i>
+                <div class="value">{{ pante_true.count }} / {{ pante_all.count }}</div>
+                <div class="stat"><b>13</b>% 100% activas</div>
+            </div>
+        </div>
+        <div class="col-12 col-md-6 col-lg-4 col-xl-3 mb-4">
+          <div class="card orange">
+              <div class="title">Pantallas activas</div>
+              <i class="zmdi zmdi-tv"></i>
+              <div class="value">{{ pante_true.count }} / {{ pante_all.count }}</div>
+              <div class="stat"><b>13</b>% 100% activas</div>
+          </div>
+      </div>
+        </div>
+    </div>
+
+    <div class="projects mb-4">
+        <div class="projects-inner">
+            <header class="projects-header">
+                <div class="title">Pantallas</div>
+                <div class="count">| {{ pante_all.count }} Projects</div>
+                <a href="#" data-toggle="modal" data-target="#myModal">
+                  <i class="zmdi zmdi-download"></i>
+              </a>
+                  </header>
+<!-- Agregar Pantalla Modal -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+      <div class="modal-content">
+          <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">Agregar Pantalla</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+              </button>
+          </div>
+          <div class="modal-body">
+              <!-- Formulario de Pantalla -->
+              <form method="post" action="{% url 'agregar_pantalla' %}" enctype="multipart/form-data">
+                  {% csrf_token %}
+                  
+                  <!-- Campo de Imagen -->
+                  <div class="form-group">
+                      <label for="imagen">Imagen:</label>
+                      <input type="file" name="imagen" id="imagen" accept="image/*" required>
+                  </div>
+                  
+                  <!-- Campo de Nombre -->
+                  <div class="form-group">
+                      <label for="nombre">Nombre:</label>
+                      <input type="text" name="nombre" id="nombre" maxlength="200" required>
+                  </div>
+                  
+                  <!-- Campo de Estado -->
+                  <div class="form-group">
+                      <label for="estado">Estado:</label>
+                      <input type="checkbox" name="estado" id="estado">
+                  </div>
+                  
+                  <!-- Campo de Ancho en Pixeles -->
+                  <div class="form-group">
+                      <label for="ancho_en_pixeles">Ancho en Pixeles:</label>
+                      <input type="number" name="ancho_en_pixeles" id="ancho_en_pixeles" required>
+                  </div>
+                  
+                  <!-- Campo de Alto en Pixeles -->
+                  <div class="form-group">
+                      <label for="alto_en_pixeles">Alto en Pixeles:</label>
+                      <input type="number" name="alto_en_pixeles" id="alto_en_pixeles" required>
+                  </div>
+                  
+                  <!-- Campo de Tiempo cada Espacio (segundos) -->
+                  <div class="form-group">
+                      <label for="tiempo_cada_espacio_seg">Tiempo cada Espacio (segundos):</label>
+                      <input type="number" name="tiempo_cada_espacio_seg" id="tiempo_cada_espacio_seg" required>
+                  </div>
+                  
+                  <!-- Campo de Nro Espacios Publicitarios -->
+                  <div class="form-group">
+                      <label for="nro_espacios_publicitarios">Nro Espacios Publicitarios:</label>
+                      <input type="number" name="nro_espacios_publicitarios" id="nro_espacios_publicitarios" required>
+                  </div>
+                  
+                  <!-- Campo de Salidas Mínimas por Hora -->
+                  <div class="form-group">
+                      <label for="salidas_minimas_por_hora">Salidas Mínimas por Hora:</label>
+                      <input type="number" name="salidas_minimas_por_hora" id="salidas_minimas_por_hora" required>
+                  </div>
+                  
+                  <!-- Campos de Días -->
+                  <div class="form-group">
+                      <label>Días:</label><br>
+                      <input type="checkbox" name="lunes" id="lunes"> <label for="lunes">Lunes</label><br>
+                      <input type="checkbox" name="martes" id="martes"> <label for="martes">Martes</label><br>
+                      <input type="checkbox" name="miercoles" id="miercoles"> <label for="miercoles">Miércoles</label><br>
+                      <input type="checkbox" name="jueves" id="jueves"> <label for="jueves">Jueves</label><br>
+                      <input type="checkbox" name="viernes" id="viernes"> <label for="viernes">Viernes</label><br>
+                      <input type="checkbox" name="sabado" id="sabado"> <label for="sabado">Sábado</label><br>
+                      <input type="checkbox" name="domingo" id="domingo"> <label for="domingo">Domingo</label>
+                  </div>
+                  
+                  <!-- Campo de Anuncios -->
+                  <div class="form-group">
+                      <label for="anuncios">Anuncios:</label>
+                      <select name="anuncios" id="anuncios" multiple>
+                          <!-- Opciones de Anuncios -->
+                          <!-- Ejemplo: -->
+                          {% for anuncio in anuncios %}
+                              <option value="{{ anuncio.id }}">{{ anuncio.nombre }}</option>
+                          {% endfor %}
+                      </select>
+                  </div>
+                  
+                  <!-- Campo de Latitud -->
+                  <div class="form-group">
+                      <label for="latitud">Latitud:</label>
+                      <input type="text" name="latitud" id="latitud">
+                  </div>
+                  
+                  <!-- Campo de Longitud -->
+                  <div class="form-group">
+                      <label for="longitud">Longitud:</label>
+                      <input type="text" name="longitud" id="longitud">
+                  </div>
+                  
+                  <div class="form-group">
+                    <label for="usuario">Usuario:</label>
+                    <select name="usuario" id="usuario" required>
+                        <!-- Opciones de Usuarios -->
+                        <!-- Ejemplo: -->
+                        {% for usuario in usuarios %}
+                            <option value="{{ usuario.id }}">{{ usuario.username }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                  
+                  <!-- Botón de Guardar -->
+                  <button type="submit" class="btn btn-primary">Guardar</button>
+              </form>
+          </div>
+      </div>
+  </div>
+</div>
+
+
+			<table class="projects-table">
+				<thead>
+					<tr>
+						<th>Pantalla</th>
+						<th>Detalles</th>
+						<th>Estado</th>
+						<th class="text-right">Acciones</th>
+					</tr>
+				</thead>
+        {% for pantalla in pante_all %}
+        <tr>
+
+            <td>
+              {% if pantalla.imagen %}
+              <img src="{{ pantalla.imagen.url }}" alt="{{ pantalla.nombre }}" style="width: 30px; height: 30px; border-radius: 50%;">
+          {% else %}
+              <!-- Puedes agregar una imagen predeterminada si no hay imagen -->
+            {% endif %}{{ pantalla.nombre }}</td>
+            <td>
+                {% if pantalla.fecha_creacion %}
+                    {{ pantalla.fecha_creacion }}
+                {% else %}
+                    Fecha de creación no disponible
+                {% endif %}
+            </td>
+					<td class="status">
+						{% if pantalla.estado %}
+							<span class="status-text status-blue">Activa</span>
+						{% else %}
+							<span class="status-text status-red">Inactiva</span>
+						{% endif %}
+					</td>
+          <td>
+            <a href="{% url 'editar_pantalla' pantalla.id %}" class="btn btn-info btn-sm">
+                <i class="fas fa-edit"></i> Eliminar
+            </a>
+        </td>
+        
+				</tr>
+				{% endfor %}
+			</table>
+			
+        </div>
+    </div>
+</main>
+
+
+  <!-- Mover el script de Chart.js al final -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels"></script>
+  <script>
+    function buscarPantalla() {
+      // Función de búsqueda existente...
+    }
+    
+    var radarChartData = {
+      // Datos para el gráfico radar
+    };
+
+    var barChartData = {
+      // Datos para el gráfico de barras
+    };
+
+    var doughnutChartData = {
+      // Datos para el gráfico doughnut
+    };
+
+    window.onload = function () {
+      var radarChart = new Chart(document.getElementById("radarChart"), {
+        // Configuración del gráfico radar
+      });
+
+      var barChart = new Chart(document.getElementById("barChart"), {
+        // Configuración del gráfico de barras
+      });
+
+      var doughnutChart = new Chart(document.getElementById("doughnutChart"), {
+        // Configuración del gráfico doughnut
+      });
+    };
+  </script>
+</main>
+{% endblock %}

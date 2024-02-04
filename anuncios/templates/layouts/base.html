@@ -1,0 +1,694 @@
+{% load bootstrap4 %}
+{% load static %}
+{% load humanize %}
+
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Dashboard - Publicom{% endblock %}</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat:300,600" /><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.min.css">
+    <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/css/bootstrap.min.css'>
+    <link rel='stylesheet' href='https://cdn.jsdelivr.net/jquery.selectric/1.10.1/selectric.css'>
+    <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/material-design-iconic-font/2.2.0/css/material-design-iconic-font.min.css'><link rel="stylesheet" href="./style.css">
+  
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
+
+    <!-- Custom styles -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat:300,600" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.min.css">
+    <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/css/bootstrap.min.css'>
+    <link rel='stylesheet' href='https://cdn.jsdelivr.net/jquery.selectric/1.10.1/selectric.css'>
+    <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/material-design-iconic-font/2.2.0/css/material-design-iconic-font.min.css'>
+    <link rel="stylesheet" href="./style.css">
+</head>
+
+<body>
+  <div id="loader" class="loader-container">
+    <div class="loader">
+        <span></span>
+        <span></span>
+        <span></span>
+    </div>
+  </div>
+    <nav class="navbar  sticky-top flex-md-nowrap p-0">
+        <a class="navbar-brand col-sm-3 col-md-2 mr-0" href="{% url 'resumen' %}">publicom</a>
+
+    </nav>
+  </div>
+  <style>
+.loader-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: none;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    backdrop-filter: blur(5px); /* Agrega el filtro de desenfoque */
+}
+
+    .loader {
+        width: 16em;
+        height: 8em;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .loader::before,
+    .loader::after {
+        content: '';
+        position: absolute;
+        bottom: 0;
+    }
+
+    .loader::before {
+        width: inherit;
+        height: 0.2em;
+        background-color: hsla(193, 26%, 85%, 0.8); /* Light blue-grey */
+    }
+
+    .loader::after {
+        box-sizing: border-box;
+        width: 50%;
+        height: inherit;
+        border: 0.2em solid hsla(193, 26%, 85%, 0.8); /* Light blue-grey */
+        border-radius: 50%;
+        left: 25%;
+    }
+
+    .loader span {
+        position: absolute;
+        width: 5%;
+        height: 10%;
+        background-color: hsl(192, 100%, 50%); /* Teal */
+        border-radius: 50%;
+        bottom: 0.2em;
+        left: -5%;
+        animation: 2s linear infinite;
+        transform-origin: 50% -3em;
+        animation-name: run, rotating;
+    }
+
+    .loader span:nth-child(2) {
+        animation-delay: 0.075s;
+    }
+
+    .loader span:nth-child(3) {
+        animation-delay: 0.15s;
+    }
+
+    @keyframes run {
+        0% {
+            left: -5%;
+        }
+        10%, 60% {
+            left: calc((100% - 5%) / 2);
+        }
+        70%, 100% {
+            left: 100%;
+        }
+    }
+
+    @keyframes rotating {
+        0%, 10% {
+            transform: rotate(0deg);
+        }
+        60%, 100% {
+            transform: rotate(-1turn);
+        }
+    }
+</style>
+
+
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+      // Add a click event listener to all links
+      var links = document.querySelectorAll('a');
+      links.forEach(function (link) {
+          link.addEventListener('click', function () {
+              // Show the loader when a link is clicked
+              document.getElementById('loader').style.display = 'flex';
+          });
+      });
+
+      // Hide the loader after the page has finished loading
+      window.addEventListener('load', function () {
+          document.getElementById('loader').style.display = 'none';
+      });
+  });
+</script>
+
+
+    <div class="container-fluid">
+        <div class="row">
+            <nav class="col-md-2 d-none d-md-block sidebar">
+                <div class="sidebar-sticky">
+                    <ul class="nav flex-column">
+                      <li class="nav-item">
+                        <a id="dashboard-link" class="nav-link" href="{% url 'resumen' %}">
+                            <i class="zmdi zmdi-widgets"></i>
+                            Dashboard <span class="sr-only">(current)</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a id="pantallas-link" class="nav-link" href="{% url 'lista_anuncios' %}">
+                            <i class="zmdi zmdi-tv-list"></i>
+                            CMS 
+                        </a>
+                    </li>
+                    <!-- Otros elementos del menú -->
+                    
+                        <li class="nav-item">
+                          <a id="anuncios-link" class="nav-link" href="{% url 'lista_anuncios' %}">
+                            <i class="zmdi zmdi-tv-alt-play"></i>
+                                Anuncios
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">
+                                <i class="zmdi zmdi-accounts"></i>
+                                Customers
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">
+                                <i class="zmdi zmdi-chart"></i>
+                                Reports
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">
+                                <i class="zmdi zmdi-layers"></i>
+                                Integrations
+                            </a>
+                        </li>
+                    </ul>
+
+                    <h6 class="sidebar-heading d-flex justify-content-between align-items-center pl-3 mt-4 mb-1 text-muted">
+                        <span>Saved reports</span>
+                        <a class="d-flex align-items-center text-muted" href="#">
+                            <i class="zmdi zmdi-plus-circle-o"></i>
+                        </a>
+                    </h6>
+                    <ul class="nav flex-column mb-2">
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">
+                                <i class="zmdi zmdi-file-text"></i>
+                                Configuraciones
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                          <a id="Equipos-link" class="nav-link" href="{% url 'lista_pantallas' %}">
+                            <i class="zmdi zmdi-file-text"></i>
+                                Equipos
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">
+                                <i class="zmdi zmdi-file-text"></i>
+                                Usuarios
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">
+                                <i class="zmdi zmdi-file-text"></i>
+                                Reportes
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+
+                {% block content %}{% endblock %}
+        </div>
+    </div>
+    
+    <script>
+      document.addEventListener('DOMContentLoaded', function () {
+          // Obtén todos los enlaces del menú
+          var menuLinks = document.querySelectorAll('.nav-link');
+  
+          // Recupera la selección actual desde el almacenamiento local
+          var selectedLink = localStorage.getItem('selectedLink');
+  
+          // Agrega un evento clic a cada enlace
+          menuLinks.forEach(function (link) {
+              link.addEventListener('click', function () {
+                  // Almacena el enlace actual como seleccionado
+                  localStorage.setItem('selectedLink', link.id);
+  
+                  // Desactiva la clase 'active' en todos los enlaces
+                  menuLinks.forEach(function (innerLink) {
+                      innerLink.classList.remove('active');
+                  });
+  
+                  // Activa la clase 'active' en el enlace clicado
+                  link.classList.add('active');
+              });
+          });
+  
+          // Establece la clase 'active' en el enlace almacenado
+          if (selectedLink) {
+              var selectedElement = document.getElementById(selectedLink);
+              if (selectedElement) {
+                  selectedElement.classList.add('active');
+              }
+          }
+      });
+  </script>
+  
+  <style>
+    .nav-link.active {
+        background-color: #3498db34; /* Nuevo color de fondo al estar activo */
+        border-left: 3px solid #2c3e50; /* Nuevo color del borde izquierdo al estar activo */
+        color: #ffffff; /* Nuevo color del texto al estar activo */
+        transition: all 0.3s ease; /* Agrega una animación de 0.3 segundos */
+    }
+</style>
+
+
+    <!-- Bootstrap and custom scripts -->
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js'></script>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js'></script>
+    <script src='https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js'></script>
+    <script src='https://cdn.jsdelivr.net/jquery.selectric/1.10.1/jquery.selectric.min.js'></script>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.bundle.min.js'></script>
+    <!-- Add your custom script here -->
+    <!-- <script src="./script.js"></script> -->
+    {% block javascripts %}{% endblock javascripts %}
+<style>
+    @import "https://s3-us-west-2.amazonaws.com/s.cdpn.io/584938/dashboard.scss";
+body {
+  background-color: #1b2431;
+  color: #202020;
+  font-family: "Montserrat", "Helvetica", "Open Sans", "Arial";
+  font-size: 13px;
+}
+
+a:hover {
+  text-decoration: none;
+}
+
+p,
+figure {
+  margin: 0;
+  padding: 0;
+}
+
+.navbar {
+  background-color: #368aff00;
+  z-index: 300; /* Asegura que el logo esté sobre otros elementos */
+
+}
+
+.sidebar {
+  background-color: #1b2431;
+  box-shadow: none;
+}
+.sidebar .nav-link {
+  border-left: 5px solid transparent;
+  color: #738297;
+  padding: 0.5rem 0.75rem;
+}
+.sidebar .nav-link:hover {
+  color: white;
+}
+.sidebar .nav-link.active {
+  border-left: 5px solid #738297;
+  color: white;
+}
+.sidebar .zmdi {
+  display: inline-block;
+  font-size: 1.35rem;
+  margin-right: 5px;
+  min-width: 25px;
+}
+
+
+.projects {
+  background-color: #273142;
+  border: 1px solid #313D4F;
+  overflow-x: auto;
+  width: 100%;
+}
+.projects-inner {
+  border-radius: 4px;
+}
+
+.projects-header {
+  color: white;
+  padding: 22px;
+}
+.projects-header .count,
+.projects-header .title {
+  display: inline-block;
+}
+.projects-header .count {
+  color: #738297;
+}
+.projects-header .zmdi {
+  cursor: pointer;
+  float: right;
+  font-size: 16px;
+  margin: 5px 0;
+}
+.projects-header .title {
+  font-size: 21px;
+}
+.projects-header .title + .count {
+  margin-left: 5px;
+}
+
+.projects-table {
+  background: #273142;
+  width: 100%;
+}
+.projects-table td,
+.projects-table th {
+  color: white;
+  padding: 10px 22px;
+  vertical-align: middle;
+}
+
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+.projects-table td p {
+  font-size: 12px;
+}
+.projects-table td p:last-of-type {
+  color: #738297;
+  font-size: 11px;
+}
+.projects-table th {
+  background-color: #313D4F;
+}
+.projects-table tr:hover {
+  background-color: #303d52;
+}
+.projects-table tr:not(:last-of-type) {
+  border-bottom: 1px solid #313D4F;
+}
+.projects-table .member figure,
+.projects-table .member .member-info {
+  display: inline-block;
+  vertical-align: top;
+}
+.projects-table .member figure + .member-info {
+  margin-left: 7px;
+}
+.projects-table .member img {
+  border-radius: 50%;
+  height: 32px;
+  width: 32px;
+}
+.projects-table .status > form {
+  float: right;
+}
+.projects-table .status-text {
+  display: inline-block;
+  font-size: 12px;
+  margin: 11px 0;
+  padding-left: 20px;
+  position: relative;
+}
+.projects-table .status-text:before {
+  border: 3px solid;
+  border-radius: 50%;
+  content: "";
+  height: 14px;
+  left: 0;
+  position: absolute;
+  top: 1px;
+  width: 14px;
+}
+.projects-table .status-text.status-blue:before {
+  border-color: #1C93ED;
+}
+.projects-table .status-text.status-green:before {
+  border-color: #66B92E;
+}
+.projects-table .status-text.status-orange:before {
+  border-color: #DA932C;
+}
+.projects-table .status-text.status-red:before {
+  border-color: #D65B4A;
+}
+
+.selectric {
+  background-color: transparent;
+  border-color: #313D4F;
+  border-radius: 4px;
+}
+.selectric .label {
+  color: #738297;
+  line-height: 34px;
+  margin-right: 10px;
+  text-align: left;
+}
+.selectric-wrapper {
+  float: right;
+  width: 150px;
+}
+
+.chart {
+  border-radius: 3px;
+  border: 1px solid #313D4F;
+  color: white;
+  padding: 10px;
+  position: relative;
+  text-align: center;
+}
+.chart canvas {
+  height: 400px;
+  margin: 20px 0;
+  width: 100%;
+}
+.chart .actions {
+  margin: 15px;
+  position: absolute;
+  right: 0;
+  top: 0;
+}
+.chart .actions span {
+  cursor: pointer;
+  display: inline-block;
+  font-size: 20px;
+  margin: 5px;
+  padding: 4px;
+}
+.chart .actions .btn-link {
+  color: white;
+}
+.chart .actions .btn-link i {
+  font-size: 1.75rem;
+}
+
+.chart .title {
+  font-size: 18px;
+  margin: 0;
+  padding: 15px 0 5px;
+}
+.chart .title + .tagline {
+  margin-top: 10px;
+}
+.chart .tagline {
+  font-size: 12px;
+}
+
+.danger-item {
+  border-left: 4px solid #A84D43;
+}
+
+.zmdi {
+  line-height: 1;
+  vertical-align: middle;
+}
+</style>
+
+<script>
+    "use strict";
+class Selectize {
+    constructor() {
+        this.init();
+    }
+    init() {
+        var initValue;
+        $('.action-box').selectric({
+            onInit: function (element) {
+                initValue = $(this).val();
+            },
+            onChange: function (element) {
+                if ($(this).val() !== initValue)
+                    $(element).parents('form').submit();
+            }
+        });
+    }
+}
+class Charts {
+    constructor() {
+        this.colors = ["#DB66AE", "#8185D6", "#89D9DF", "#E08886"];
+        this.tickColor = "#757681";
+        this.initRadar();
+        this.initBarHorizontal();
+        this.initDoughnut();
+    }
+    initRadar() {
+        var ctxD = $('#radarChartDark'), chartData = {
+            type: 'radar',
+            data: {
+                labels: ["Education", "Food", "Transport", "Drinks", "Other"],
+                datasets: [
+                    {
+                        label: "2014",
+                        backgroundColor: this.convertHex(this.colors[0], 20),
+                        borderColor: this.colors[0],
+                        borderWidth: 1,
+                        pointRadius: 2,
+                        data: [51, 67, 90, 31, 16],
+                    },
+                    {
+                        label: "2015",
+                        backgroundColor: this.convertHex(this.colors[1], 20),
+                        borderColor: this.colors[1],
+                        borderWidth: 1,
+                        pointRadius: 2,
+                        data: [75, 44, 19, 22, 43],
+                    },
+                    {
+                        label: "2015",
+                        backgroundColor: this.convertHex(this.colors[2], 20),
+                        borderColor: this.colors[2],
+                        borderWidth: 1,
+                        pointRadius: 2,
+                        data: [7, 14, 29, 82, 33]
+                    }
+                ]
+            },
+            options: {
+                scale: {
+                    pointLabels: {
+                        fontColor: this.tickColor
+                    },
+                    ticks: {
+                        display: false,
+                        stepSize: 25
+                    }
+                },
+                legend: {
+                    position: "bottom",
+                    labels: {
+                        boxWidth: 11,
+                        fontColor: this.tickColor,
+                        fontSize: 11
+                    }
+                }
+            }
+        }, myDarkRadarChart = new Chart(ctxD, chartData);
+    }
+    initBarHorizontal() {
+        var ctxD = $("#barChartHDark"), chartData = {
+            type: 'horizontalBar',
+            data: {
+                labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
+                datasets: [{
+                        data: [27, 59, 68, 26, 79, 55, 36, 43, 44, 30, 55, 64],
+                        backgroundColor: this.colors[0],
+                        hoverBackgroundColor: this.convertHex(this.colors[0], 70)
+                    },
+                    {
+                        data: [136, 23, 44, 30, 79, 55, 61, 94, 27, 59, 98, 91],
+                        backgroundColor: this.colors[1],
+                        hoverBackgroundColor: this.convertHex(this.colors[1], 70)
+                    },
+                    {
+                        data: [88, 31, 87, 61, 77, 27, 59, 58, 136, 26, 79, 85],
+                        backgroundColor: this.colors[2],
+                        hoverBackgroundColor: this.convertHex(this.colors[2], 70)
+                    }]
+            },
+            options: {
+                barThickness: 10,
+                scales: {
+                    xAxes: [{
+                            stacked: true,
+                            ticks: {
+                                fontColor: this.tickColor,
+                            },
+                            gridLines: {
+                                drawOnChartArea: false
+                            }
+                        }],
+                    yAxes: [{
+                            stacked: true,
+                            ticks: {
+                                fontColor: this.tickColor,
+                                min: 0,
+                                max: 175,
+                                stepSize: 25
+                            }
+                        }]
+                },
+                legend: {
+                    display: false
+                }
+            }
+        }, myDarkRadarChart = new Chart(ctxD, chartData);
+    }
+    initDoughnut() {
+        var ctxD = $('#doughnutChartDark'), chartData = {
+            type: 'doughnut',
+            data: {
+                labels: ["Brasil", "India", "China"],
+                datasets: [{
+                        data: [300, 50, 100],
+                        borderWidth: 0,
+                        backgroundColor: [
+                            this.convertHex(this.colors[0], 60),
+                            this.convertHex(this.colors[1], 60),
+                            this.convertHex(this.colors[2], 60),
+                        ],
+                        hoverBackgroundColor: [
+                            this.colors[0],
+                            this.colors[1],
+                            this.colors[2],
+                        ]
+                    }]
+            },
+            options: {
+                responsive: true,
+                legend: {
+                    position: "bottom",
+                    labels: {
+                        boxWidth: 11,
+                        fontColor: this.tickColor,
+                        fontSize: 11
+                    }
+                }
+            }
+        }, myDarkRadarChart = new Chart(ctxD, chartData);
+    }
+    convertHex(hex, opacity) {
+        hex = hex.replace('#', '');
+        var r = parseInt(hex.substring(0, 2), 16);
+        var g = parseInt(hex.substring(2, 4), 16);
+        var b = parseInt(hex.substring(4, 6), 16);
+        var result = 'rgba(' + r + ',' + g + ',' + b + ',' + opacity / 100 + ')';
+        return result;
+    }
+}
+new Selectize();
+new Charts();
+</script>
+</body>
+
+</html>

@@ -1,0 +1,52 @@
+.header {
+    display: flex;
+    align-items: center;
+}
+
+.header img {
+    margin-right: 5px;
+    width: 40px; /* Ajusta el ancho del logo según tus necesidades */
+    height: auto; /* Mantiene la proporción del logo */
+}
+
+.header h5 {
+    font-size: 18px; /* Ajusta el tamaño del texto según tus necesidades */
+    margin: 0; /* Elimina el margen del texto para alinear con el logo */
+}
+
+.options {
+    display: flex;
+    align-items: center; /* Centra verticalmente los elementos dentro de .options */
+    justify-content: flex-start; /* Mueve los elementos hacia la derecha */
+    margin-top: 5px; /* Ajusta la separación superior */
+    margin-bottom: 5px; /* Ajusta la separación inferior */
+    background-color: #fff;
+    padding: 0px;
+    border-bottom: 1px solid #ccc; /* Añade un borde inferior a la barra de opciones */
+}
+.option {
+    text-align: center;
+    margin-left: 10px; /* Ajusta el margen izquierdo entre los iconos */
+    background-color: #fff;
+    padding: 5px; /* Ajusta el espaciado interno */
+    border-radius: 8px;
+}
+
+.option i {
+    font-size: 20px; /* Tamaño de los iconos */
+    width: 20px; /* Ancho de los iconos */
+    height: 21px; /* Altura de los iconos */
+    color: #3498db;
+    margin-top: 5px; /* Ajusta el espacio desde la parte superior del icono */
+    margin-bottom: 5px; /* Ajusta el espacio desde la parte inferior del icono */
+}
+
+.option p {
+    margin: 0; /* Elimina el margen para alinear con el icono */
+}
+
+.content {
+    margin-top: 20px; /* Ajusta el espacio entre la barra del menú y el contenido principal */
+    padding: 20px; /* Ajusta el espaciado interno del contenido principal */
+}
+

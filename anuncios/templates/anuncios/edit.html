@@ -1,0 +1,309 @@
+{% extends 'layouts/base.html' %}
+
+{% block content %}
+{% load crispy_forms_tags %}
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+
+<div class="row justify-content-center">
+    <!-- Cuadro izquierdo más pequeño -->
+    <div class="col-12 col-md-3">
+        <div class="card">
+            <div class="card-body text-center">
+                <!-- Lado izquierdo: Cuadro para el anuncio -->
+                <div class="video-container">
+                    {% if anuncio.file %}
+                        {% if anuncio.file.url|lower|slice:'-4:' == ".mp4" or anuncio.file.url|lower|slice:'-5:' == ".webm" or anuncio.file.url|lower|slice:'-4:' == ".ogg" %}
+                            <video id="anuncioVideo" width="300" height="130" loop autoplay muted style="outline: none;">
+                                <source src="{{ anuncio.file.url }}" type="video/mp4">
+                                Tu navegador no admite el elemento de video.
+                            </video>
+                        {% else %}
+                            <img src="{{ anuncio.file.url }}" alt="{{ anuncio.file.name }}" class="img-thumbnail video-thumbnail" width="200" height="100">
+                        {% endif %}
+                    {% else %}
+                        <p>No hay archivo adjunto</p>
+                    {% endif %}
+                    <div class="video-details" style="max-width: 250px; margin: auto;">
+                        <!-- Mostrar el nombre del archivo -->
+                        <p>{{ anuncio.file.name }}</p>
+                        <div style="height: 120px;"></div>
+
+                        <!-- Modificado: Muestra el valor antes del nombre -->
+                        <div style="display: flex; justify-content: space-between;">
+                            <!-- Modificado: Muestra el valor antes del nombre -->
+                            <p class="text-muted"><span id="resolution">Cargando...</span> Resolución</p>
+                            <p class="text-muted"><span id="duration">Cargando...</span> Duración</p>
+                        </div>
+                        <!-- Agregado: Espacio en blanco -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Cierre del cuadro izquierdo -->
+
+    <div class="col-12 col-md-9">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">Información</h5>
+    
+                <!-- Cuadro azul con texto -->
+                <div class="info-box">
+                    <h3 class="info-text">Reproduciéndose en 0 pantallas</h3>
+                    <i class="fas fa-play"></i>
+                </div>
+                
+                <!-- Contenedor separado para la gráfica de barras -->
+                <div class="bar-chart-container" style="float: left; margin-right: 30px; background-color: white; padding: 10px;">
+                    <canvas id="myBarChart" width="400" height="270"></canvas>
+                </div>
+    
+                <div class="totals-box" style="margin-top: 20px; height: 250px; display: flex; flex-direction: column; justify-content: center; align-items: center;">
+                    <!-- Añade un margen superior para separar -->
+                    <p>Salidas Totales</p>
+                    <div style="display: flex; justify-content: space-between; width: 30%;">
+                        <button class="btn btn-primary" style="margin-right: 10px;">Calcular</button>
+                        <button class="btn btn-success" style="margin-left: 10px;">Generar Reportes</button>
+                    </div>
+                </div>
+                
+    
+            </div>
+        </div>
+    </div>
+    
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    // Datos de ejemplo para la gráfica de barras
+    var barData = {
+        labels: ["A", "B", "C", "D", "E"],
+        datasets: [{
+            label: 'Salidas por dia',
+            backgroundColor: 'rgba(75, 192, 192, 0.2)',
+            borderColor: 'rgba(75, 192, 192, 1)',
+            borderWidth: 1
+        }]
+    };
+
+    // Configuración de la gráfica de barras
+    var barOptions = {
+        scales: {
+            y: {
+                beginAtZero: true
+            }
+        }
+    };
+
+    // Obtén el contexto del lienzo de la gráfica de barras
+    var ctx = document.getElementById('myBarChart').getContext('2d');
+
+    // Crea la gráfica de barras
+    var myBarChart = new Chart(ctx, {
+        type: 'bar',
+        data: barData,
+        options: barOptions
+    });
+</script>
+
+<script>
+    // Obtener el elemento de video
+    var video = document.getElementById('anuncioVideo');
+
+    // Cuando el metadato del video esté cargado
+    video.addEventListener('loadedmetadata', function () {
+        // Mostrar resolución y duración
+        document.getElementById('resolution').innerText = video.videoWidth + 'x' + video.videoHeight;
+        document.getElementById('duration').innerText = formatTime(video.duration);
+    });
+
+    // Función para formatear el tiempo en segundos a MM:SS
+    function formatTime(seconds) {
+        var minutes = Math.floor(seconds / 60);
+        var seconds = Math.floor(seconds % 60);
+
+        return padZero(minutes) + ':' + padZero(seconds);
+    }
+
+    // Función para añadir un cero delante si el número es menor que 10
+    function padZero(num) {
+        return (num < 10) ? '0' + num : num;
+    }
+</script>
+<style>
+    .video-container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+    }
+
+    .details-container {
+        background-color: #f8fcfc; /* Agregado: Cambia el color de fondo a rojo */
+        padding: 10px; /* Agregado: Añade un relleno para resaltar el color */
+        border-radius: 8px; /* Agregado: Añade bordes redondeados para un mejor aspecto */
+    }
+
+    #resolution,
+    #duration {
+        display: block;
+        margin-top: 5px; /* Ajustado: Ajuste la separación entre Resolución y Duración */
+        /* Agregado: Cambia el color del texto a blanco para mayor contraste */
+    }
+
+    .info-box {
+        background-color: #3498db69;
+        color: #fff;
+        padding: 10px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .info-text {
+        margin: 0;
+    }
+
+    .video-icon {
+        width: 20px; /* Ajusta el tamaño según sea necesario */
+        height: 20px; /* Ajusta el tamaño según sea necesario */
+    }
+
+    .bar-chart {
+        /* Agrega estilos según sea necesario para tu gráfica de barras */
+    }
+
+    .totals-box {
+        background-color: #3498db67;
+        color: #fff;
+        padding: 20px;
+        margin-top: 20px; /* Ajusta la separación según sea necesario */
+        text-align: center;
+    }
+
+    .totals-box p {
+        font-size: 18px;
+        font-weight: bold;
+        margin-bottom: 10px;
+    }
+
+    .btn {
+        margin-top: 10px; /* Ajusta la separación según sea necesario */
+    }
+    body {
+        background-color: #e1f1fd;
+        margin: 0;
+    }
+    .btn-add {
+        position: fixed;
+        bottom: 50px;
+        right: 50px;
+        z-index: 1000;
+        width: 50px;
+        height: 50px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        overflow: hidden;
+    }
+
+    .btn-add .icon {
+        font-size: 24px;
+        color: white;
+        text-decoration: none;
+        position: relative;
+        top: -1px;
+        z-index: 1;
+    }
+
+    .btn-add .background {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        border-radius: 50%;
+        background-color: #B4ADEA;
+        transition: background-color 0.3s ease;
+    }
+
+    .btn-add:hover .background {
+        background-color: #8568B2;
+    }
+</style>
+
+<!-- Botón flotante para la edición del anuncio -->
+<a class="btn-add" id="editButton">
+    <span class="icon"><i class="fas fa-pen"></i></span>
+    <span class="background"></span>
+</a>
+<!-- Agrega esto al final de tu archivo HTML, antes de cerrar el bloque body -->
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        // Manejar el clic en el botón de edición
+        document.getElementById('editButton').addEventListener('click', function () {
+            // Abre el modal de edición
+            $('#editModal').modal('show');
+        });
+    });
+</script>
+
+<!-- Agrega un modal al final de tu archivo HTML -->
+<div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="editModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="editModalLabel">Editar Anuncio</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <!-- Formulario de edición utilizando Django Crispy Forms para un diseño más elegante -->
+                {% load crispy_forms_tags %}
+                <form id="editForm" method="post" enctype="multipart/form-data" action="{% url 'editar_anuncio' anuncio.id %}">
+                    {% csrf_token %}
+                    {{ form|crispy }}
+                    <button type="submit" class="btn btn-primary">Guardar cambios</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+ <!-- Nuevo cuadro con las especificaciones adicionales -->
+ <div class="card" style="margin-top: 20px;">
+    <div class="card-body d-flex">
+        <div class="reel-container" style=" width: 280px; height: 260px; flex-shrink: 0; border-right: 1px solid #ccc; padding-right: 20px;">
+            <div class="reel-left">
+                <p>reel</p>
+                <hr>
+                <ul>
+                    <li>activos</li>
+                    <li>vencidos</li>
+                    <li>futuros</li>
+                    <li>todas</li>
+                </ul>
+            </div>
+        </div>
+        <div class="reel-container" style="width: 1340px; height: 300px; flex-shrink: 0;padding-left: 20px">
+            <div class="reel-right">
+                <h5>Pantallas</h5>
+                <div class="pantallas-container">
+                    <div class="pantalla-icon">
+                        <!-- Icono de ojo tachado -->
+                        <i class="fas fa-eye-slash"></i>
+                    </div>
+                    <hr>
+                    <p>No hay pantallas para mostrar</p>
+                </div>
+                <div class="pantalla-button">
+                    <button class="btn btn-primary">Agregar pantalla</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+
+{% endblock %}

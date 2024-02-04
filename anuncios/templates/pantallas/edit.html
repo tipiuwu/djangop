@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<!-- Bootstrap CSS -->
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+
+<!-- jQuery -->
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+
+<!-- Bootstrap JS -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+
+<html>
+<head>
+    <title>Pantalla</title>
+    <style>
+        /* Estilos para el cuadro de imagen circular */
+        .image-container {
+            width: 150px; /* Aumentar el tamaño de la imagen */
+            height: 150px; /* Aumentar el tamaño de la imagen */
+            overflow: hidden;
+            border-radius: 50%;
+            margin-bottom: 5px; /* Reducir el espacio inferior */
+        }
+
+        .circular-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 50%;
+        }
+
+        /* Estilos para el card cuadrado */
+        .card {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            border: 1px solid #ccc;
+            padding: 10px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            width: 200px; /* Ajustar el ancho de la card */
+            text-align: center; /* Centrar el texto */
+        }
+
+        /* Estilos para la información de la pantalla en el card */
+        .info-container {
+            margin-top: 50px; /* Reducir el espacio superior */
+            margin-bottom: -20px; /* Reducir el espacio entre la información y la imagen */
+        }
+
+        /* Estilos para la resolución y la versión con opacidad */
+        .transparent {
+            opacity: 0.5; /* Ajustar la opacidad según sea necesario */
+        }
+
+        /* Estilos para el contenedor de estado y activar cámara */
+        .estado-activar-container {
+            display: flex;
+            flex-direction: row;
+            justify-content: center; /* Centrar horizontalmente */
+            align-items: center; /* Alinear verticalmente en el centro */
+            width: 100%; /* Asegurar que ocupe todo el ancho del contenedor */
+            margin-top: 5px; /* Reducir el espacio superior */
+        }
+
+        /* Estilos para el cuadro de estado */
+        .estado-container {
+            padding: 5px;
+            border-radius: 4px;
+            color: #fff;
+            font-weight: bold;
+            font-size: 12px; /* Ajustar el tamaño de la fuente */
+            margin-right: 5px; /* Ajustar el espacio entre el cuadro de estado y "Activar Cámara" */
+        }   
+
+        /* Estilos para el estado "online" */
+        .online {
+            background-color: green;
+        }
+
+        /* Estilos para el estado "offline" */
+        .offline {
+            background-color: red;
+        }
+
+        /* Estilos para el cuadro de activar cámara */
+        .activar-camara {
+            padding: 5px;
+            border-radius: 4px;
+            background-color: #808080; /* Color plomo */
+            color: #fff;
+            font-weight: bold;
+            font-size: 12px; /* Ajustar el tamaño de la fuente */
+        }
+
+        /* Estilos para la lista de anuncios asociados */
+        .anuncios-asociados {
+            margin-top: 20px;
+            width: 100%; /* Ancho completo del contenedor */
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            padding: 10px;
+            text-align: center; /* Centrar el texto */
+        }
+
+        /* Estilos para el segundo card de asociación de anuncios */
+        .card-asociar-anuncio {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            border: 1px solid #ccc;
+            padding: 10px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            width: 200px; /* Ajustar el ancho de la card */
+            text-align: center; /* Centrar el texto */
+        }
+
+        /* Estilos para el botón de mostrar anuncios */
+        .mostrar-anuncios-btn {
+            margin-top: 10px;
+            padding: 5px;
+            border-radius: 4px;
+            background-color: #007bff; /* Color azul */
+            color: #fff;
+            font-weight: bold;
+            font-size: 12px;
+            cursor: pointer;
+        }
+
+        /* Estilos para el checkbox de asociar anuncios */
+        .asociar-anuncios-checkbox {
+            margin-top: 10px;
+        }
+
+        /* Estilos para la lista de anuncios en el contenedor de anuncios asociados */
+        .anuncios-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: flex-start;
+        }
+
+        .anuncios-list {
+            list-style: none;
+            padding: 0;
+            display: flex;
+            flex-wrap: wrap;
+        }
+
+        .anuncio-item {
+            margin: 10px;
+            box-sizing: border-box;
+            text-align: center; /* Centrar el texto */
+        }
+
+        .anuncio-item img,
+        .anuncio-item video {
+            max-width: 100%;
+            height: auto;
+            margin-bottom: 5px; /* Espacio entre la imagen o video y el nombre */
+        }
+
+        .anuncio-item p {
+            margin: 0;
+            font-weight: bold;
+        }
+
+        /* Estilos adicionales para la duración y fecha del anuncio */
+/* Estilos adicionales para la duración y fecha del anuncio */
+.anuncio-info-container {
+    margin-top: 5px;
+    font-size: 12px;
+    color: #555;
+}
+
+.anuncio-info-container p {
+    margin: 0;
+    font-weight: bold;
+    display: inline; /* Alinea los elementos en línea */
+}
+
+    </style>
+</head>
+<body>
+    <h1>Asociar Anuncio a Pantalla</h1>
+
+    <!-- Primer Card cuadrado -->
+    <div class="card">
+        <!-- Cuadro de imagen circular -->
+        <div class="image-container">
+            <img src="{{ pantalla.imagen.url }}" alt="Imagen de la pantalla" class="circular-image">
+        </div>
+
+        <!-- Información de la pantalla en el card -->
+        <div class="info-container">
+            <p>{{ pantalla.nombre }}</p>
+        </div>
+        <div class="transparent">
+            <p>{{ pantalla.ancho_en_pixeles }}x{{ pantalla.alto_en_pixeles }}</p>
+        </div>
+        <div class="transparent">
+            <p>Versión: 1.8.2 (Windows 10)</p>
+        </div>
+        
+        <!-- Contenedor de estado y activar cámara -->
+        <div class="estado-activar-container">
+            <!-- Cuadro de estado -->
+            <div class="estado-container {% if pantalla.estado %}online{% else %}offline{% endif %}">
+                {{ pantalla.estado|yesno:"Online,Offline" }}
+            </div>
+            <!-- Cuadro de activar cámara -->
+            <div class="activar-camara">
+                Activar Cámara
+            </div>
+        </div>
+        
+        <hr>
+        <div>
+            <p>
+                Tradicional (PE$ 8.000,00 /mes)<br>
+                Programáticas (PE$ 400,00 /CPM)
+            </p>
+        </div>
+    </div>
+
+
+    
+        <!-- Modal -->
+        <div class="modal fade" id="agregarAnuncioModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Agregar Anuncio</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <!-- Formulario dentro del modal -->
+                        <form method="post">
+                            {% csrf_token %}
+                            {{ form.as_p }}
+                            <button type="submit" class="btn btn-primary">Asociar Anuncios</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+<!-- Tercer Card para mostrar anuncios asociados -->
+<div class="anuncios-asociados">
+    <h2>Anuncios Asociados:</h2>
+    <div class="anuncios-container">
+        <div class="cuadro-anuncios">
+            <ul class="anuncios-list">
+                {% for anuncio in pantalla.anuncios.all %}
+                    <li class="anuncio-item">
+                    {% if anuncio.file.url|lower|slice:'-4:' == '.jpg' or anuncio.file.url|lower|slice:'-5:' == '.jpeg' or anuncio.file.url|lower|slice:'-4:' == '.png' or anuncio.file.url|lower|slice:'-4:' == '.gif' %}
+                        <!-- Mostrar la imagen si es un archivo de imagen -->
+                        <img src="{{ anuncio.file.url }}" alt="{{ anuncio.nombre }}">
+                        {% elif anuncio.file.url|lower|slice:'-4:' == '.mp4' or anuncio.file.url|lower|slice:'-5:' == '.webm' or anuncio.file.url|lower|slice:'-4:' == '.ogv' %}
+                        <!-- Mostrar el video si es un archivo de video -->
+                        <video width="146" height="79" autoplay muted loop>
+                            <source src="{{ anuncio.file.url }}" type="video/mp4">
+                            <source src="{{ anuncio.file.url }}" type="video/webm">
+                            <source src="{{ anuncio.file.url }}" type="video/ogg">
+                            Tu navegador no soporta el tag de video.
+                        </video>
+                    {% else %}
+                        <!-- Tratar otros tipos de archivos o simplemente mostrar un enlace -->
+                        <a href="{{ anuncio.file.url }}" target="_blank">{{ anuncio.file.url }}</a>
+                        {% endif %}
+                        
+                    
+                    <!-- Información adicional del anuncio -->
+<!-- Información adicional del anuncio -->
+<div class="anuncio-info-container">
+    <!-- Duración del anuncio y Nombre del anuncio en la misma línea -->
+    <p>{{ anuncio.duration }} segundos</p>
+    <!-- Fecha de creación del anuncio -->
+    <p>{{ anuncio.nombre }}</p>
+</div>
+
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+            
+    <!-- Agregar el botón para abrir el modal al final de la sección -->
+    <div class="card-asociar-anuncio">
+        <h2>Asociar Anuncios:</h2>
+        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#agregarAnuncioModal">
+            Agregar Anuncio
+        </button>
+    </div>
+    
+    <!-- Modal -->
+    <div class="modal fade" id="agregarAnuncioModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Agregar Anuncio</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <!-- Formulario dentro del modal -->
+                    <form method="post">
+                        {% csrf_token %}
+                        {{ form.as_p }}
+                        <button type="submit" class="btn btn-primary">Asociar Anuncios</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+    <!-- Scripts adicionales para obtener la duración del video y formato de fecha -->
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            // Obtener la duración del video y actualizar la información
+            var videos = document.querySelectorAll('.anuncio-item video');
+            videos.forEach(function(video) {
+                video.addEventListener('loadedmetadata', function() {
+                    var duration = Math.round(video.duration);
+                    var durationContainer = video.closest('.anuncio-item').querySelector('.anuncio-info-container p:first-child');
+                    durationContainer.innerText = ' ' + duration + 's ';
+                });
+            });
+        });
+    </script>
+</body>
+</html>
